@@ -1,7 +1,7 @@
 {
 	"package": "com.invadermonky.bakedenchants.mixins" ,
 	"required": true,
-	"refmap": "mixins.zbakedenchants.refmap.json",
+	"refmap": "mixins.bakedenchants.refmap.json",
 	"target": "@env(DEFAULT)",
 	"minVersion": "0.8.5",
 	"compatibilityLevel": "JAVA_8",

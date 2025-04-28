@@ -3,7 +3,6 @@ package com.invadermonky.bakedenchants.core;
 import com.invadermonky.bakedenchants.BakedEnchants;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import zone.rong.mixinbooter.Context;
 import zone.rong.mixinbooter.IEarlyMixinLoader;
 
 import javax.annotation.Nullable;

@@ -1,6 +1,8 @@
 package com.invadermonky.bakedenchants.mixins;
 
 import com.invadermonky.bakedenchants.config.ConfigTags;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -19,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Item.class)
+@Mixin(value = Item.class, priority = 999)
 public abstract class ItemMixin {
     @Shadow
     protected abstract boolean isInCreativeTab(CreativeTabs tab);
@@ -30,23 +32,23 @@ public abstract class ItemMixin {
     }
 
     @Inject(method = "getForgeRarity", at = @At("RETURN"), remap = false, cancellable = true)
+    @ModifyReturnValue(method = "getForgeRarity", at = @At("RETURN"), remap = false)
     private void getForgeRarityMixin(ItemStack stack, CallbackInfoReturnable<IRarity> cir) {
         if (!stack.isEmpty() && ConfigTags.shouldHideRarity(stack)) {
             cir.setReturnValue(EnumRarity.COMMON);
-            cir.cancel();
         }
     }
 
     @SideOnly(Side.CLIENT)
-    @Inject(method = "hasEffect", at = @At("RETURN"), cancellable = true)
-    private void hasEffectMixin(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValue() && ConfigTags.shouldHideEffect(stack)) {
-            cir.setReturnValue(false);
-            cir.cancel();
+    @ModifyReturnValue(method = "hasEffect", at = @At("RETURN"))
+    private boolean hasEffectMixin(boolean original, @Local(argsOnly = true) ItemStack stack) {
+        if (original && ConfigTags.shouldHideEffect(stack)) {
+            return false;
         }
+        return original;
     }
 
-    @Inject(method = "onCreated", at = @At("RETURN"))
+    @Inject(method = "onCreated", at = @At("TAIL"))
     private void onCreatedMixin(ItemStack stack, World world, EntityPlayer player, CallbackInfo ci) {
         if (!stack.isEmpty() && ConfigTags.hasBakedEnchants(stack.getItem())) {
             ConfigTags.addBakedEnchants(stack);
@@ -65,7 +67,7 @@ public abstract class ItemMixin {
                     did = true;
                 }
             }
-            if(!did) {
+            if (!did) {
                 ConfigTags.addBakedEnchants(bakedStack);
                 items.add(bakedStack);
             }
