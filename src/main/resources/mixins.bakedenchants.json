@@ -1,13 +1,16 @@
 {
-	"package": "com.invadermonky.bakedenchants.mixins" ,
-	"required": true,
-	"refmap": "mixins.bakedenchants.refmap.json",
-	"target": "@env(DEFAULT)",
-	"minVersion": "0.8.5",
-	"compatibilityLevel": "JAVA_8",
-	"mixins": [
-		"ItemMixin"
-	],
-	"server": [],
-	"client": []
+  "package": "com.invadermonky.bakedenchants.mixins" ,
+  "required": true ,
+  "refmap": "mixins.bakedenchants.refmap.json" ,
+  "target": "@env(DEFAULT)" ,
+  "minVersion": "0.8.5" ,
+  "compatibilityLevel": "JAVA_8" ,
+  "mixins": [
+    "ContainerRepairMixin",
+    "EnchantmentHelperMixin" ,
+    "ItemMixin" ,
+    "ItemStackMixin"
+  ] ,
+  "server": [] ,
+  "client": []
 }

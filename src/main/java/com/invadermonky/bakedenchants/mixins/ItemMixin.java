@@ -32,7 +32,6 @@ public abstract class ItemMixin {
     }
 
     @Inject(method = "getForgeRarity", at = @At("RETURN"), remap = false, cancellable = true)
-    @ModifyReturnValue(method = "getForgeRarity", at = @At("RETURN"), remap = false)
     private void getForgeRarityMixin(ItemStack stack, CallbackInfoReturnable<IRarity> cir) {
         if (!stack.isEmpty() && ConfigTags.shouldHideRarity(stack)) {
             cir.setReturnValue(EnumRarity.COMMON);
