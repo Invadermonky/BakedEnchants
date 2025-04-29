@@ -14,7 +14,8 @@ public class ConfigHandler {
     @Config.Name("Baked Enchantments")
     @Config.Comment({"Any items and the enchants that will be applied to them by default. This feature will automatically", "adapt for crafting table recipes and creative tab entries. Other crafting processes may need custom", "handling via Crafttweaker or GroovyScript.", "Format:", "  modid:itemid;enchant1=level;enchant2=level...", "Examples:", "  minecraft:golden_pickaxe;minecraft:fortune=3;minecraft:unbreaking=1", "  minecraft:golden_sword;minecraft:looting=3"})
     public static String[] bakedEnchants = new String[]{
-            "minecraft:golden_pickaxe;minecraft:fortune=2", "minecraft:golden_sword;minecraft:looting=2"
+            "minecraft:golden_pickaxe;minecraft:fortune=2",
+            "minecraft:golden_sword;minecraft:looting=2"
     };
 
     @Config.Name("Hide Baked Effects")

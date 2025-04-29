@@ -1,14 +1,14 @@
-# Baked Enchants
+## Baked Enchants
 
 Baked Enchants is a backport of Quarks "Fortunate Gold" feature commissioned [Foreck1](https://www.curseforge.com/members/foreck1/projects) for use in the [Rebirth of the Night (RotN)](https://www.curseforge.com/minecraft/modpacks/rebirth-of-the-night) modpack.
 
-This mod allows users to define enchantments that will be included on items by default when pulled from JEI or crafted at a crafting table. By default, Baked Enchants gives Golden Pickaxes Fortune II and Golden Swords Looting II. Additional items and enchantments can be defined in the configuration.
+## What does it do? 
 
-Baked Enchantments will add all defined enchantments to the item display in JEI and in the creative menu. Items crafted at a crafting table will have the enchantments applied automatically.
+Baked Enchants allows users to define enchantments that will be included on items by default. Configured enchantments will be included on the item when pulled from JEI, the creative menu or crafted at a crafting table.
 
-However, nearly all modded crafting methods will not have the enchantments applied automatically. Any items crafted through modded processes will require manually adding the enchantments via Crafttweaker or Groovyscript.
+## Integration
 
-Because mods do not call the initialization code for item creation through crafting, Baked Enchants includes a simple Crafttweaker helper method to automatically add all baked enchants to an item. Simply call the method from within any function, and it will take care of the rest.
+Because most mods do not call the initialization code for item creation through crafting, Baked Enchants includes a simple scripting helper method to automatically add all baked enchants to an item. Simply call the method from within any function, and it will add all baked enchantments to the item.
 ```zenscript
 import mods.bakedenchants.BakedEnchants;
 
@@ -19,6 +19,13 @@ import mods.bakedenchants.BakedEnchants;
 var baked = BakedEnchants.bake(<minecraft:golden_pickaxe>);
 brewing.addBrew(<ore:stickWood>, <ore:oreGold>, baked);
 
-//Or it can be called from inside most functions
+//Or it can be called from inside most recipe functions
 brewing.addBrew(<ore:stickWood>, <ore:ingotGold>, BakedEnchants.bake(<minecraft:golden_pickaxe>));
+```
+
+Groovyscript users use the same syntax.
+```groovy
+import mods.bakedenchants.BakedEnchants
+
+furnace.add(ore('ingotGold'), BakedEnchants.bake(item('minecraft:golden_pickaxe')))
 ```

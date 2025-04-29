@@ -28,19 +28,24 @@ public class ConfigTags {
     }
 
     /**
+     * Determines if the passed enchant is a baked enchantment for the item.
+     *
      * @param stack       The ItemStack to query
      * @param enchantment The Enchantment to query
      * @param level       The queried Enchantment level
-     * @return            true if the queried enchantment is a valid baked enchantment for the item
+     * @return true if the queried enchantment is a valid baked enchantment for the item
      */
     public static boolean isBakedEnchant(ItemStack stack, Enchantment enchantment, int level) {
         return BAKED_ENCHANTMENTS.containsKey(stack.getItem()) && BAKED_ENCHANTMENTS.get(stack.getItem()).containsKey(enchantment) && BAKED_ENCHANTMENTS.get(stack.getItem()).get(enchantment) == level;
     }
 
     /**
+     * Determines whether the passed enchant is a baked enchantment for the item. Enchantment level is pulled from the item
+     * itself.
+     *
      * @param stack       The ItemStack to query
      * @param enchantment The Enchantment to query
-     * @return            true if the queried enchantment is a valid baked enchantment for the item
+     * @return true if the queried enchantment is a valid baked enchantment for the item
      */
     public static boolean isBakedEnchant(ItemStack stack, Enchantment enchantment) {
         int level = EnchantmentHelper.getEnchantmentLevel(enchantment, stack);

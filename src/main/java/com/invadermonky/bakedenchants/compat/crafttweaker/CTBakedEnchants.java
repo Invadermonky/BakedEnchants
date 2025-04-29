@@ -12,7 +12,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenRegister
 @ZenClass("mods." + BakedEnchants.MOD_ID + ".BakedEnchants")
-public class BakedEnchantsCT {
+public class CTBakedEnchants {
     @ZenMethod
     public static IItemStack bake(IItemStack iStack) {
         ItemStack stack = CraftTweakerMC.getItemStack(iStack);
