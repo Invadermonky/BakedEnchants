@@ -4,7 +4,11 @@ Baked Enchants is a backport of Quarks "Fortunate Gold" feature commissioned by 
 
 ## What does it do? 
 
-Baked Enchants allows users to define enchantments that will be added to items by default. Configured enchantments will be included on the item when pulled from JEI, the creative menu or crafted at a crafting table.
+Baked Enchants allows users to define enchantments that will be added to items by default. Configured enchantments will be included on the item when pulled from JEI or the creative menu, or crafted at a crafting table.
+
+Items with baked enchants can be enchanted normally, with higher enchant levels or incompatible enchantments overwriting baked enchants.
+
+By default, Baked Enchants gives Golden Pickaxes Fortune II and Golden Swords Looting II.
 
 ## Integration
 
