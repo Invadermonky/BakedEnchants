@@ -6,6 +6,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -101,6 +102,12 @@ public class ConfigTags {
      */
     public static void addBakedEnchants(ItemStack stack) {
         BAKED_ENCHANTMENTS.get(stack.getItem()).forEach(stack::addEnchantment);
+    }
+
+    public static NBTTagCompound getEnchantmentTag(Item item) {
+        ItemStack stack = new ItemStack(item);
+        addBakedEnchants(stack);
+        return stack.hasTagCompound() ? stack.getTagCompound().getCompoundTag("ench") : new NBTTagCompound();
     }
 
     public static void syncConfig() {

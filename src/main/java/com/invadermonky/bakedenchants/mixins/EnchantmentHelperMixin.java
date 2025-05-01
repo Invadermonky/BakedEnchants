@@ -10,13 +10,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Mixin(value = EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
     @Inject(method = "setEnchantments", at = @At("HEAD"))
     private static void setEnchantmentsMixin(Map<Enchantment, Integer> enchMap, ItemStack stack, CallbackInfo ci) {
         if (ConfigTags.hasBakedEnchants(stack.getItem())) {
-            enchMap.entrySet().removeIf(entry -> {
+            enchMap.entrySet().stream().filter(Objects::nonNull).collect(Collectors.toList()).removeIf(entry -> {
                 Enchantment enchant = entry.getKey();
                 int level = entry.getValue();
                 if (ConfigTags.isBakedEnchant(stack, enchant, level)) {

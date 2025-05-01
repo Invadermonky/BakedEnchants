@@ -26,6 +26,16 @@ public class ConfigHandler {
     @Config.Comment("Hides the rarity item name color for items that have baked enchantment effects.")
     public static boolean hideBakedRarity = true;
 
+    @Config.RequiresMcRestart
+    @Config.Name("Inject Baked Drops")
+    @Config.Comment("Items dropped from mobs will automatically have baked enchants applied if they are missing.")
+    public static boolean injectBakedDrops = true;
+
+    @Config.RequiresMcRestart
+    @Config.Name("Inject Baked Equipment")
+    @Config.Comment("Equipment carried or worn by mobs will automatically have baked enchants applied if they are missing.")
+    public static boolean injectBakedEquipment = true;
+
     @Mod.EventBusSubscriber(modid = BakedEnchants.MOD_ID)
     public static class ConfigChangeListener {
         @SubscribeEvent
@@ -38,6 +48,7 @@ public class ConfigHandler {
     }
 
     static {
+        //ConfigManager.sync(BakedEnchants.MOD_ID, Config.Type.INSTANCE);
         ConfigAnytime.register(ConfigHandler.class);
     }
 }
