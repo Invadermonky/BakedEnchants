@@ -3,6 +3,7 @@
 ### Added
 - Added mob drop baked enchantment injection (configurable)
 - Added mob update baked enchantment injection (configurable)
+- Added item creation baked enchantment injection (configurable)
 
 ### Fixed
 - Fixed JEI log error spam

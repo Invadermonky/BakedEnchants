@@ -1,9 +1,12 @@
 package com.invadermonky.bakedenchants.mixins;
 
+import com.invadermonky.bakedenchants.config.ConfigHandler;
 import com.invadermonky.bakedenchants.config.ConfigTags;
 import com.invadermonky.bakedenchants.util.EnchantmentHelperHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,25 +18,33 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
 @Mixin(value = ItemStack.class, priority = 999)
 public class ItemStackMixin {
 
     @Unique
-    public ItemStack getItemStack() {
+    private ItemStack getItemStack() {
         return (ItemStack) (Object) this;
     }
 
+    @Inject(method = "Lnet/minecraft/item/ItemStack;<init>(Lnet/minecraft/item/Item;IILnet/minecraft/nbt/NBTTagCompound;)V", at = @At("TAIL"))
+    private void constructorMixin(Item itemIn, int amount, int meta, @Nullable NBTTagCompound capNBT, CallbackInfo ci) {
+        if (ConfigHandler.injectItemCreation && itemIn != null && itemIn != Items.AIR && ConfigTags.hasBakedEnchants(itemIn)) {
+            ConfigTags.addBakedEnchants(getItemStack());
+        }
+    }
+
     @Inject(method = "isItemEnchanted", at = @At("HEAD"), cancellable = true)
-    public void isItemEnchantedMixin(CallbackInfoReturnable<Boolean> ci) {
+    private void isItemEnchantedMixin(CallbackInfoReturnable<Boolean> ci) {
         if (ConfigTags.canBeEnchanted(getItemStack())) {
             ci.setReturnValue(false);
         }
     }
 
     @Inject(method = "addEnchantment", at = @At("HEAD"), cancellable = true)
-    public void addEnchantmentMixin(Enchantment enchToAdd, int level, CallbackInfo ci) {
+    private void addEnchantmentMixin(Enchantment enchToAdd, int level, CallbackInfo ci) {
         ItemStack stack = this.getItemStack();
         int enchId = Enchantment.getEnchantmentID(enchToAdd);
         int currLevel = EnchantmentHelper.getEnchantmentLevel(enchToAdd, stack);

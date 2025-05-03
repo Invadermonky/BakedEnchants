@@ -28,13 +28,31 @@ public class ConfigHandler {
 
     @Config.RequiresMcRestart
     @Config.Name("Inject Baked Drops")
-    @Config.Comment("Items dropped from mobs will automatically have baked enchants applied if they are missing.")
-    public static boolean injectBakedDrops = true;
+    @Config.Comment
+            ({
+                    "Items dropped from mobs will automatically have baked enchants applied if they are missing. This is",
+                    "a less intrusive alternative to the 'Inject Item Creation' option."
+            })
+    public static boolean injectBakedDrops = false;
 
     @Config.RequiresMcRestart
     @Config.Name("Inject Baked Equipment")
-    @Config.Comment("Equipment carried or worn by mobs will automatically have baked enchants applied if they are missing.")
-    public static boolean injectBakedEquipment = true;
+    @Config.Comment
+            ({
+                    "Equipment carried or worn by mobs, but not players, will automatically have baked enchants applied if",
+                    "they are missing. This is a less intrusive alternative to the 'Inject Item Creation' option."
+            })
+    public static boolean injectBakedEquipment = false;
+
+    @Config.Name("Inject Item Creation")
+    @Config.Comment
+            ({
+                    "Adds baked enchantments onto items whenever the associated ItemStack is created. This includes whenever",
+                    "an inventory is opened or the item is refreshed through any means. This can be exploited so it is advised",
+                    "to disable this option and apply the effects manually if possible."
+            })
+    public static boolean injectItemCreation = true;
+
 
     @Mod.EventBusSubscriber(modid = BakedEnchants.MOD_ID)
     public static class ConfigChangeListener {
