@@ -47,9 +47,7 @@ public class ConfigHandler {
     @Config.Name("Inject Item Creation")
     @Config.Comment
             ({
-                    "Adds baked enchantments onto items whenever the associated ItemStack is created. This includes whenever",
-                    "an inventory is opened or the item is refreshed through any means. This can be exploited so it is advised",
-                    "to disable this option and apply the effects manually if possible."
+                    "Adds baked enchantments onto items whenever the associated ItemStack is created."
             })
     public static boolean injectItemCreation = true;
 

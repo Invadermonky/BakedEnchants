@@ -1,5 +1,6 @@
 package com.invadermonky.bakedenchants.mixins;
 
+import com.invadermonky.bakedenchants.config.ConfigHandler;
 import com.invadermonky.bakedenchants.config.ConfigTags;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -49,6 +50,9 @@ public abstract class ItemMixin {
 
     @Inject(method = "onCreated", at = @At("TAIL"))
     private void onCreatedMixin(ItemStack stack, World world, EntityPlayer player, CallbackInfo ci) {
+        if(ConfigHandler.injectItemCreation)
+            return;
+
         if (!stack.isEmpty() && ConfigTags.hasBakedEnchants(stack.getItem())) {
             ConfigTags.addBakedEnchants(stack);
         }
@@ -56,6 +60,9 @@ public abstract class ItemMixin {
 
     @Inject(method = "getSubItems", at = @At("TAIL"))
     private void getSubItemsMixin(CreativeTabs tab, NonNullList<ItemStack> items, CallbackInfo ci) {
+        if(ConfigHandler.injectItemCreation)
+            return;
+
         if (this.isInCreativeTab(tab) && ConfigTags.hasBakedEnchants(getItem())) {
             ItemStack bakedStack = new ItemStack(getItem());
             boolean did = false;
