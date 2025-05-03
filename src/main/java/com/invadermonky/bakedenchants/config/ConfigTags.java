@@ -6,11 +6,11 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -104,10 +104,25 @@ public class ConfigTags {
         BAKED_ENCHANTMENTS.get(stack.getItem()).forEach(stack::addEnchantment);
     }
 
-    public static NBTTagCompound getEnchantmentTag(Item item) {
-        ItemStack stack = new ItemStack(item);
-        addBakedEnchants(stack);
-        return stack.hasTagCompound() ? stack.getTagCompound().getCompoundTag("ench") : new NBTTagCompound();
+    /**
+     * Testing method, may not be needed.
+     *
+     * Applies any baked enchantments that do not conflict with enchantments that already exist on the item. Appears to
+     * be unnecessary, but the code is here in case it becomes an issue.
+     *
+     * @param stack the stack to add enchantments to
+     */
+    public static void addNonConflictingBakedEnchants(ItemStack stack) {
+        if(!hasBakedEnchants(stack.getItem()))
+            return;
+
+        Map<Enchantment, Integer> bakedEnchants = BAKED_ENCHANTMENTS.get(stack.getItem());
+        Map<Enchantment, Integer> itemEnchants = EnchantmentHelper.getEnchantments(stack);
+        bakedEnchants.keySet().removeIf(bakedEnch -> itemEnchants.keySet().stream()
+                .anyMatch(itemEnch -> !itemEnch.isCompatibleWith(bakedEnch)
+                        || (itemEnch == bakedEnch && itemEnchants.get(itemEnch) >= bakedEnchants.get(bakedEnch))));
+
+        bakedEnchants.forEach(stack::addEnchantment);
     }
 
     public static void syncConfig() {

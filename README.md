@@ -12,8 +12,11 @@ By default, Baked Enchants gives Golden Pickaxes Fortune II and Golden Swords Lo
 
 ## Integration
 
-Because most mods do not call the initialization code for item creation through crafting, Baked Enchants includes a simple scripting helper method to automatically add all baked enchants to an item. Simply call the method from within any function, and it will add all associated baked enchantments to the item.
+As of version 1.12.2-1.1.0, these methods are no longer needed as enchantments are baked into the item during ItemStack creation, but they still exist within the mod for people who would like to manually control enchantment baking.
 
+Baked Enchants includes a simple scripting helper method to automatically add all baked enchants to an item. Simply call the method from within any function, and it will add all associated baked enchantments to the item.
+
+### Crafttweaker
 ```zenscript
 import mods.bakedenchants.BakedEnchants;
 
@@ -28,9 +31,12 @@ furnace.addRecipe(baked, <ore:ingotGold>);
 furnace.addRecipe(BakedEnchants.bake(<minecraft:golden_pickaxe>), <ore:ingotGold>);
 ```
 
-Groovyscript uses the same syntax.
+### GroovyScript
 ```groovy
 import mods.bakedenchants.BakedEnchants
 
 furnace.add(ore('ingotGold'), BakedEnchants.bake(item('minecraft:golden_pickaxe')))
 ```
+
+## Credits
+- Logo made by hand by Foreck
