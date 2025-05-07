@@ -18,4 +18,5 @@ public class GSLinkGenerator extends BasicLinkGenerator {
     protected String version() {
         return BakedEnchants.MOD_VERSION;
     }
+
 }

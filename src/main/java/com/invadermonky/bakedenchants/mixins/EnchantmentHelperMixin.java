@@ -1,6 +1,7 @@
 package com.invadermonky.bakedenchants.mixins;
 
-import com.invadermonky.bakedenchants.config.ConfigTags;
+import com.invadermonky.bakedenchants.handler.BakedEnchantmentHandler;
+import com.invadermonky.bakedenchants.handler.BakedEnchantmentRecipe;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
@@ -17,11 +18,12 @@ import java.util.stream.Collectors;
 public class EnchantmentHelperMixin {
     @Inject(method = "setEnchantments", at = @At("HEAD"))
     private static void setEnchantmentsMixin(Map<Enchantment, Integer> enchMap, ItemStack stack, CallbackInfo ci) {
-        if (ConfigTags.hasBakedEnchants(stack.getItem())) {
+        BakedEnchantmentRecipe recipe = BakedEnchantmentHandler.getBakedEnchantRecipe(stack);
+        if (recipe != null) {
             enchMap.entrySet().stream().filter(Objects::nonNull).collect(Collectors.toList()).removeIf(entry -> {
                 Enchantment enchant = entry.getKey();
                 int level = entry.getValue();
-                if (ConfigTags.isBakedEnchant(stack, enchant, level)) {
+                if (recipe.isBakedEnchant(enchant, level)) {
                     return enchMap.keySet().stream().anyMatch(checkEnch -> checkEnch != enchant && !checkEnch.isCompatibleWith(enchant));
                 }
                 return false;

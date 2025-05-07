@@ -4,7 +4,7 @@ Baked Enchants is a backport of Quarks "Fortunate Gold" feature commissioned by 
 
 ## What does it do? 
 
-Baked Enchants allows users to define enchantments that will be added to items by default. Configured enchantments will be included on the item when pulled from JEI or the creative menu, or crafted at a crafting table.
+Baked Enchants allows users to define enchantments that will be added to items by default. Configured enchantments will be included on the item when pulled from JEI/Creative menues, looted from monsters or chests, or crafted via modded or vanilla crafting processes.
 
 Items with baked enchants can be enchanted normally, with higher enchant levels or incompatible enchantments overwriting baked enchants.
 
@@ -12,30 +12,45 @@ By default, Baked Enchants gives Golden Pickaxes Fortune II and Golden Swords Lo
 
 ## Integration
 
-As of version 1.12.2-1.1.0, these methods are no longer needed as enchantments are baked into the item during ItemStack creation, but they still exist within the mod for people who would like to manually control enchantment baking.
-
-Baked Enchants includes a simple scripting helper method to automatically add all baked enchants to an item. Simply call the method from within any function, and it will add all associated baked enchantments to the item.
+Additional baked enchanted items can be defined using either Crafttweaker or GroovyScript.
 
 ### Crafttweaker
 ```zenscript
 import mods.bakedenchants.BakedEnchants;
 
-//Method returns an IItemStack object
-//var baked = mods.bakedenchants.BakedEnchants.bake(<minecraft:golden_pickaxe>);
+//Add baked enchants to an item
+//BakedEnchants.add(IItemStack, IEnchantment...)
+BakedEnchants.add(<minecraft:iron_sword:*>, <enchantment:minecraft:sharpness>.makeEnchantment(5));
+BakedEnchants.add(<minecraft:iron_sword:*>, <enchantment:minecraft:sharpness>.makeEnchantment(5), <enchantment:minecraft:unbreaking>.makeEnchantment(2));
 
-//The baked item can be defined externally
-var baked = BakedEnchants.bake(<minecraft:golden_pickaxe>);
-furnace.addRecipe(baked, <ore:ingotGold>);
+//Remove all baked enchantments from an item
+//BakedEnchants.remove(IItemStack)
+BakedEnchants.remove(<minecraft:golden_pickaxe:*>);
 
-//Or it can be called from inside most recipe functions
-furnace.addRecipe(BakedEnchants.bake(<minecraft:golden_pickaxe>), <ore:ingotGold>);
+//Remove all default baked enchantment items
+//BakedEnchants.removeAll()
+BakedEnchants.removeAll();
 ```
 
 ### GroovyScript
 ```groovy
 import mods.bakedenchants.BakedEnchants
 
-furnace.add(ore('ingotGold'), BakedEnchants.bake(item('minecraft:golden_pickaxe')))
+//Add a single baked enchantment to an item
+//BakedEnchants.add(ItemStack, Enchantment, int)
+BakedEnchants.add(item('minecraft:iron_sword'), enchantment('minecraft:sharpness'), 5)
+
+//Add multiple baked enchantments to an item
+//BakedEnchants.add(ItemStack, Map<Enchantment, Integer>)
+BakedEnchants.add(item('minecraft:iron_sword:*'), [(enchantment('minecraft:looting')): 2, (enchantment('minecraft:sharpness')): 5])
+
+//Remove all baked enchants from an item
+//BakedEnchants.remove(ItemStack)
+BakedEnchants.remove(item('minecraft:golden_pickaxe:*'))
+
+//Remove all default baked enchantment items
+//BakedEnchants.removeAll()
+BakedEnchants.removeAll()
 ```
 
 ## Credits
