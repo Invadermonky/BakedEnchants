@@ -61,17 +61,17 @@ public class BakedEnchantmentHandler {
         return false;
     }
 
-    public static void addBakedEnchant(BakedEnchantmentRecipe recipe) {
+    public static void addBakedEnchantRecipe(BakedEnchantmentRecipe recipe) {
         bakedEnchantments.add(recipe);
     }
 
-    public static void addBakedEnchant(ItemStack stack, Enchantment enchantment, int level) {
+    public static void addBakedEnchantRecipe(ItemStack stack, Enchantment enchantment, int level) {
         try {
             Optional<BakedEnchantmentRecipe> optional = bakedEnchantments.stream().filter(recipe -> recipe.matches(stack)).findFirst();
             if (optional.isPresent()) {
                 optional.get().addBakedEnchantment(enchantment, level);
             } else {
-                addBakedEnchant(new BakedEnchantmentRecipe(stack).addBakedEnchantment(enchantment, level));
+                addBakedEnchantRecipe(new BakedEnchantmentRecipe(stack).addBakedEnchantment(enchantment, level));
             }
         } catch (IllegalArgumentException e) {
             BakedEnchants.LOGGER.error(e);
@@ -91,7 +91,7 @@ public class BakedEnchantmentHandler {
     }
 
     public static void registerDefaultBakedEnchants() {
-        BakedEnchantmentHandler.addBakedEnchant(new ItemStack(Items.GOLDEN_PICKAXE, 1, Short.MAX_VALUE), Enchantments.FORTUNE, 2);
-        BakedEnchantmentHandler.addBakedEnchant(new ItemStack(Items.GOLDEN_SWORD, 1, Short.MAX_VALUE), Enchantments.LOOTING, 2);
+        BakedEnchantmentHandler.addBakedEnchantRecipe(new ItemStack(Items.GOLDEN_PICKAXE, 1, Short.MAX_VALUE), Enchantments.FORTUNE, 2);
+        BakedEnchantmentHandler.addBakedEnchantRecipe(new ItemStack(Items.GOLDEN_SWORD, 1, Short.MAX_VALUE), Enchantments.LOOTING, 2);
     }
 }

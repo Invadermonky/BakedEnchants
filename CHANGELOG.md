@@ -1,6 +1,6 @@
 # Changelog
 ## 1.12.2-2.0.0
-The 2.0.0 version of the mod featured a complete rebuild of much of the internal handling to support the improved item baking method.
+The 2.0.0 version of the mod featured a complete rebuild of much of the internal handling to focus on the ItemStack baking method.
 ### Added
 - Added missing GroovyScript generated wiki documentation
 ### Changed

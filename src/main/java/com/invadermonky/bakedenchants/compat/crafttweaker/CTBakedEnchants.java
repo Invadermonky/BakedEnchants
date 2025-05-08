@@ -30,7 +30,7 @@ public class CTBakedEnchants {
             if (iEnchantment.getLevel() <= 0 || iEnchantment.getLevel() > Short.MAX_VALUE) {
                 CraftTweakerAPI.logError("Error adding " + iEnchantment + ", enchantment level must be between 1 and 32767");
             }
-            BakedEnchantmentHandler.addBakedEnchant(stack, enchantment, iEnchantment.getLevel());
+            BakedEnchantmentHandler.addBakedEnchantRecipe(stack, enchantment, iEnchantment.getLevel());
         }
     }
 

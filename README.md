@@ -4,7 +4,7 @@ Baked Enchants is a backport of Quarks "Fortunate Gold" feature commissioned by 
 
 ## What does it do? 
 
-Baked Enchants allows users to define enchantments that will be added to items by default. Configured enchantments will be included on the item when pulled from JEI/Creative menues, looted from monsters or chests, or crafted via modded or vanilla crafting processes.
+Baked Enchants allows users to define enchantments that will be added to items by default. Configured enchantments will be included on the item when pulled from JEI/Creative menus, looted from monsters or chests, or crafted via modded or vanilla crafting processes.
 
 Items with baked enchants can be enchanted normally, with higher enchant levels or incompatible enchantments overwriting baked enchants.
 
@@ -42,14 +42,16 @@ BakedEnchants.add(item('minecraft:iron_sword'), enchantment('minecraft:sharpness
 
 //Add multiple baked enchantments to an item
 //BakedEnchants.add(ItemStack, Map<Enchantment, Integer>)
-BakedEnchants.add(item('minecraft:iron_sword:*'), [(enchantment('minecraft:looting')): 2, (enchantment('minecraft:sharpness')): 5])
+BakedEnchants.add(item('minecraft:iron_sword:*'), [
+    (enchantment('minecraft:looting')): 2, 
+    (enchantment('minecraft:sharpness')): 5
+])
 
 //Remove all baked enchants from an item
 //BakedEnchants.remove(ItemStack)
 BakedEnchants.remove(item('minecraft:golden_pickaxe:*'))
 
 //Remove all default baked enchantment items
-//BakedEnchants.removeAll()
 BakedEnchants.removeAll()
 ```
 

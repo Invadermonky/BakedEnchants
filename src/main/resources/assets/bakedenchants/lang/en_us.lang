@@ -1,5 +1,5 @@
 # Groovyscript
-groovyscript.wiki.bakedenchants.baked_enchants.title=Baked Enchantments
+groovyscript.wiki.bakedenchants.baked_enchants.title=Baked Enchants
 groovyscript.wiki.bakedenchants.baked_enchants.description=Adds enchantments included on items by default. This includes items pulled from Creative/JEI menus, loot from drops or chests, and created by modded or vanilla crafting processes.
 # Add
 groovyscript.wiki.bakedenchants.baked_enchants.add.single=Adds a single baked enchantment to an item. This method can be called multiple times for the same item

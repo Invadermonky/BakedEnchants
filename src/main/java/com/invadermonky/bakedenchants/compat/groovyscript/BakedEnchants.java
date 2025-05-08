@@ -26,7 +26,7 @@ public class BakedEnchants extends VirtualizedRegistry<BakedEnchantmentRecipe> {
     @MethodDescription(
             type = MethodDescription.Type.ADDITION,
             description = "groovyscript.wiki.bakedenchants.baked_enchants.add.single",
-            example = @Example(value = "item('minecraft:golden_pickaxe:*'), enchantment('minecraft:fortune'), 2")
+            example = @Example(value = "item('minecraft:stone_pickaxe:*'), enchantment('minecraft:fortune'), 3")
     )
     public void add(ItemStack stack, Enchantment enchantment, int level) {
         this.recipeBuilder()
@@ -37,7 +37,7 @@ public class BakedEnchants extends VirtualizedRegistry<BakedEnchantmentRecipe> {
 
     @MethodDescription(
             type = MethodDescription.Type.ADDITION,
-            example = @Example(value = "item('minecraft:golden_sword:*'), [(enchantment('minecraft:looting')): 2, (enchantment('minecraft:sharpness')): 5]"),
+            example = @Example(value = "item('minecraft:stone_sword:*'), [(enchantment('minecraft:looting')): 3, (enchantment('minecraft:sharpness')): 5]"),
             description = "groovyscript.wiki.bakedenchants.baked_enchants.add.multi",
             priority = 1001
     )
@@ -65,7 +65,7 @@ public class BakedEnchants extends VirtualizedRegistry<BakedEnchantmentRecipe> {
     }
 
     @RecipeBuilderDescription(
-            example = @Example(".setStack(item('minecraft:golden_sword:*')).addEnchantment(enchantment('minecraft:looting'), 2).addEnchantment(enchantment('minecraft:sharpness'), 5)")
+            example = @Example(".setStack(item('minecraft:stone_sword:*')).addEnchantment(enchantment('minecraft:looting'), 2).addEnchantment(enchantment('minecraft:sharpness'), 5)")
     )
     public RecipeBuilder recipeBuilder() {
         return new RecipeBuilder();
@@ -103,7 +103,7 @@ public class BakedEnchants extends VirtualizedRegistry<BakedEnchantmentRecipe> {
         public void validate(GroovyLog.Msg msg) {
             msg.add(bakedStack.isEmpty(), "ItemStack cannot be empty");
             msg.add(bakedEnchants.isEmpty(), "Item must have at least one baked enchantment");
-            msg.add(bakedEnchants.keySet().stream().anyMatch(Objects::isNull), "Invalid enchantment registered");
+            msg.add(bakedEnchants.keySet().stream().anyMatch(Objects::isNull), "Invalid enchantment found");
             msg.add(bakedEnchants.values().stream().anyMatch(level -> level <= 0 || level > Short.MAX_VALUE), "Enchantment level must be between 1 and 32767");
         }
 
@@ -113,7 +113,7 @@ public class BakedEnchants extends VirtualizedRegistry<BakedEnchantmentRecipe> {
             if (validate()) {
                 BakedEnchantmentRecipe recipe = new BakedEnchantmentRecipe(this.bakedStack);
                 this.bakedEnchants.forEach(recipe::addBakedEnchantment);
-                BakedEnchantmentHandler.addBakedEnchant(recipe);
+                BakedEnchantmentHandler.addBakedEnchantRecipe(recipe);
                 return recipe;
             }
             return null;
