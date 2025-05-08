@@ -1,4 +1,10 @@
 # Changelog
+## 1.12.2-2.0.1
+### Fixed
+- Fix circular dependency issue with Quark and Crafttweaker
+
+---
+
 ## 1.12.2-2.0.0
 The 2.0.0 version of the mod featured a complete rebuild of much of the internal handling to focus on the ItemStack baking method.
 ### Added
