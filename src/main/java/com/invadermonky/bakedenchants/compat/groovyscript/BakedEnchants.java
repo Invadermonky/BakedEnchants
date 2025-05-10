@@ -1,8 +1,10 @@
 package com.invadermonky.bakedenchants.compat.groovyscript;
 
+import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.documentation.annotations.*;
 import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder;
+import com.cleanroommc.groovyscript.registry.AbstractReloadableStorage;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import com.invadermonky.bakedenchants.handler.BakedEnchantmentHandler;
 import com.invadermonky.bakedenchants.handler.BakedEnchantmentRecipe;
@@ -10,18 +12,28 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RegistryDescription(linkGenerator = com.invadermonky.bakedenchants.BakedEnchants.MOD_ID)
 public class BakedEnchants extends VirtualizedRegistry<BakedEnchantmentRecipe> {
+    @GroovyBlacklist
+    private static final Set<BakedEnchantmentRecipe> recipeCache = new HashSet<>();
+
     @Override
     public void onReload() {
         BakedEnchantmentHandler.removeAll();
         BakedEnchantmentHandler.registerDefaultBakedEnchants();
     }
 
+    @Override
+    public void afterScriptLoad() {
+        recipeCache.forEach(BakedEnchantmentHandler::addBakedEnchantRecipe);
+    }
+
+    @Override
+    protected AbstractReloadableStorage<BakedEnchantmentRecipe> createRecipeStorage() {
+        return super.createRecipeStorage();
+    }
 
     @MethodDescription(
             type = MethodDescription.Type.ADDITION,
@@ -113,7 +125,7 @@ public class BakedEnchants extends VirtualizedRegistry<BakedEnchantmentRecipe> {
             if (validate()) {
                 BakedEnchantmentRecipe recipe = new BakedEnchantmentRecipe(this.bakedStack);
                 this.bakedEnchants.forEach(recipe::addBakedEnchantment);
-                BakedEnchantmentHandler.addBakedEnchantRecipe(recipe);
+                recipeCache.add(recipe);
                 return recipe;
             }
             return null;

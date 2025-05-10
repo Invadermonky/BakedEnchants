@@ -1,4 +1,10 @@
 # Changelog
+## 1.12.2-2.0.2
+### Fixed
+- Fixed baked enchant scripts interfering with recipe removals
+
+---
+
 ## 1.12.2-2.0.1
 ### Fixed
 - Fix circular dependency issue with Quark and Crafttweaker

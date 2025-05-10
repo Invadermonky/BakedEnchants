@@ -22,16 +22,23 @@ public class CTBakedEnchants {
     @ZenMethod
     public static void add(IItemStack iStack, IEnchantment... iEnchantments) {
         ItemStack stack = CraftTweakerMC.getItemStack(iStack);
+        if (stack.isEmpty()) {
+            CraftTweakerAPI.logError("IItemStack cannot be empty");
+        }
+        BakedEnchantmentRecipe recipe = new BakedEnchantmentRecipe(stack);
         for (IEnchantment iEnchantment : iEnchantments) {
             Enchantment enchantment = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(iEnchantment.getDefinition().getRegistryName()));
             if (enchantment == null) {
                 CraftTweakerAPI.logError("Not a valid enchantment: " + iEnchantment);
+                return;
             }
             if (iEnchantment.getLevel() <= 0 || iEnchantment.getLevel() > Short.MAX_VALUE) {
                 CraftTweakerAPI.logError("Error adding " + iEnchantment + ", enchantment level must be between 1 and 32767");
+                return;
             }
-            BakedEnchantmentHandler.addBakedEnchantRecipe(stack, enchantment, iEnchantment.getLevel());
+            recipe.addBakedEnchantment(enchantment, iEnchantment.getLevel());
         }
+        CTIntegration.cacheBakedEnchantRecipe(recipe);
     }
 
     @ZenMethod
