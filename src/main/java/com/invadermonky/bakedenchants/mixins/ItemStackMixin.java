@@ -3,6 +3,7 @@ package com.invadermonky.bakedenchants.mixins;
 import com.invadermonky.bakedenchants.handler.BakedEnchantmentHandler;
 import com.invadermonky.bakedenchants.handler.BakedEnchantmentRecipe;
 import com.invadermonky.bakedenchants.util.EnchantmentHelperBE;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
@@ -39,6 +40,17 @@ public class ItemStackMixin {
         }
     }
 
+    @ModifyReturnValue(method = "copy", at = @At("RETURN"))
+    private ItemStack copyMixin(ItemStack original) {
+        if (!original.isEmpty()) {
+            BakedEnchantmentRecipe recipe = BakedEnchantmentHandler.getBakedEnchantRecipe(getItemStack());
+            if (recipe != null) {
+                recipe.bakeEnchantments(original);
+            }
+        }
+        return original;
+    }
+
     @Inject(method = "isItemEnchanted", at = @At("HEAD"), cancellable = true)
     private void isItemEnchantedMixin(CallbackInfoReturnable<Boolean> ci) {
         if (!BakedEnchantmentHandler.canBeEnchanted(getItemStack())) {
@@ -47,24 +59,26 @@ public class ItemStackMixin {
     }
 
     @Inject(method = "addEnchantment", at = @At("HEAD"), cancellable = true)
-    private void addEnchantmentMixin(Enchantment enchToAdd, int level, CallbackInfo ci) {
+    private void addEnchantmentMixin(Enchantment enchToAdd, int newLevel, CallbackInfo ci) {
         ItemStack stack = this.getItemStack();
         if (BakedEnchantmentHandler.isBakedEnchantItem(stack)) {
             int enchId = Enchantment.getEnchantmentID(enchToAdd);
             int currLevel = EnchantmentHelper.getEnchantmentLevel(enchToAdd, stack);
             if (currLevel > 0) {
-                if (currLevel < level) {
+                if (currLevel < newLevel) {
                     NBTTagList nbttaglist = stack.getTagCompound().getTagList("ench", 10);
                     for (NBTBase nbtBase : nbttaglist) {
                         if (nbtBase instanceof NBTTagCompound && ((NBTTagCompound) nbtBase).getShort("id") == enchId) {
-                            ((NBTTagCompound) nbtBase).setShort("lvl", (byte) level);
+                            ((NBTTagCompound) nbtBase).setShort("lvl", (byte) newLevel);
                         }
                     }
                 }
                 ci.cancel();
             } else {
                 Map<Enchantment, Integer> currEnchants = EnchantmentHelper.getEnchantments(stack);
-                currEnchants.keySet().stream().filter(enchant -> !enchToAdd.isCompatibleWith(enchant)).forEach(enchant -> EnchantmentHelperBE.removeEnchantment(stack, enchant));
+                currEnchants.keySet().stream()
+                        .filter(enchant -> !enchToAdd.isCompatibleWith(enchant))
+                        .forEach(enchant -> EnchantmentHelperBE.removeEnchantment(stack, enchant));
             }
         }
     }

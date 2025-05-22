@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Mixin(value = EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
@@ -20,14 +20,16 @@ public class EnchantmentHelperMixin {
     private static void setEnchantmentsMixin(Map<Enchantment, Integer> enchMap, ItemStack stack, CallbackInfo ci) {
         BakedEnchantmentRecipe recipe = BakedEnchantmentHandler.getBakedEnchantRecipe(stack);
         if (recipe != null) {
-            enchMap.entrySet().stream().filter(Objects::nonNull).collect(Collectors.toList()).removeIf(entry -> {
+            List<Enchantment> toRemove = new ArrayList<>();
+            for (Map.Entry<Enchantment, Integer> entry : enchMap.entrySet()) {
                 Enchantment enchant = entry.getKey();
                 int level = entry.getValue();
                 if (recipe.isBakedEnchant(enchant, level)) {
-                    return enchMap.keySet().stream().anyMatch(checkEnch -> checkEnch != enchant && !checkEnch.isCompatibleWith(enchant));
+                    if (enchMap.keySet().stream().anyMatch(checkEnch -> checkEnch != enchant && !checkEnch.isCompatibleWith(enchant)))
+                        toRemove.add(enchant);
                 }
-                return false;
-            });
+            }
+            toRemove.forEach(enchMap.keySet()::remove);
         }
     }
 }

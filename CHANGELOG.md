@@ -1,4 +1,13 @@
 # Changelog
+## 1.12.2-2.1.0
+### Added
+- Added Crafttweaker helper methods for adding shaped and shapeless crafting table recipes for baked items
+
+### Fixed
+- Fixed certain recipes not correctly adding baked enchants to items
+
+---
+
 ## 1.12.2-2.0.2
 ### Fixed
 - Fixed baked enchant scripts interfering with recipe removals

@@ -12,7 +12,7 @@ By default, Baked Enchants gives Golden Pickaxes Fortune II and Golden Swords Lo
 
 ## Integration
 
-Additional baked enchanted items can be defined using either Crafttweaker or GroovyScript.
+Additional baked enchanted items can be defined using either Crafttweaker or GroovyScript. For more information, check out the [Github Wiki]().
 
 ### Crafttweaker
 ```zenscript

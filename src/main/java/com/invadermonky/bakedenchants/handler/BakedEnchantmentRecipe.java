@@ -5,9 +5,9 @@ import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -76,7 +76,12 @@ public class BakedEnchantmentRecipe {
      * @param stack The ItemStack to bake enchantments onto
      */
     public void bakeEnchantments(@NotNull ItemStack stack) {
-        this.bakedEnchantments.forEach((stack::addEnchantment));
+        Map<Enchantment, Short> bakedEnchants = new HashMap<>(this.bakedEnchantments);
+        for (Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(stack).entrySet()) {
+            bakedEnchants.keySet().removeIf(bakedEnchant -> !entry.getKey().isCompatibleWith(bakedEnchant)
+                    || (entry.getKey() == bakedEnchant && entry.getValue() >= bakedEnchants.get(bakedEnchant)));
+        }
+        bakedEnchants.forEach(stack::addEnchantment);
     }
 
     /**
@@ -86,7 +91,9 @@ public class BakedEnchantmentRecipe {
      * @return true if the item has baked enchantments
      */
     public boolean matches(ItemStack stack) {
-        return OreDictionary.itemMatches(this.bakedStack, stack, false);
+        return !this.bakedStack.isEmpty() && !stack.isEmpty()
+                && this.bakedStack.getItem() == stack.getItem()
+                && (this.bakedStack.getMetadata() == Short.MAX_VALUE || this.bakedStack.getMetadata() == stack.getMetadata());
     }
 
     @Override
