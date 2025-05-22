@@ -12,48 +12,7 @@ By default, Baked Enchants gives Golden Pickaxes Fortune II and Golden Swords Lo
 
 ## Integration
 
-Additional baked enchanted items can be defined using either Crafttweaker or GroovyScript. For more information, check out the [Github Wiki]().
-
-### Crafttweaker
-```zenscript
-import mods.bakedenchants.BakedEnchants;
-
-//Add baked enchants to an item
-//BakedEnchants.add(IItemStack, IEnchantment...)
-BakedEnchants.add(<minecraft:iron_sword:*>, <enchantment:minecraft:sharpness>.makeEnchantment(5));
-BakedEnchants.add(<minecraft:iron_sword:*>, <enchantment:minecraft:sharpness>.makeEnchantment(5), <enchantment:minecraft:unbreaking>.makeEnchantment(2));
-
-//Remove all baked enchantments from an item
-//BakedEnchants.remove(IItemStack)
-BakedEnchants.remove(<minecraft:golden_pickaxe:*>);
-
-//Remove all default baked enchantment items
-//BakedEnchants.removeAll()
-BakedEnchants.removeAll();
-```
-
-### GroovyScript
-```groovy
-import mods.bakedenchants.BakedEnchants
-
-//Add a single baked enchantment to an item
-//BakedEnchants.add(ItemStack, Enchantment, int)
-BakedEnchants.add(item('minecraft:iron_sword'), enchantment('minecraft:sharpness'), 5)
-
-//Add multiple baked enchantments to an item
-//BakedEnchants.add(ItemStack, Map<Enchantment, Integer>)
-BakedEnchants.add(item('minecraft:iron_sword:*'), [
-    (enchantment('minecraft:looting')): 2, 
-    (enchantment('minecraft:sharpness')): 5
-])
-
-//Remove all baked enchants from an item
-//BakedEnchants.remove(ItemStack)
-BakedEnchants.remove(item('minecraft:golden_pickaxe:*'))
-
-//Remove all default baked enchantment items
-BakedEnchants.removeAll()
-```
+Additional baked enchanted items can be defined using either Crafttweaker or GroovyScript. For more information, check out the [Github Wiki](https://github.com/Invadermonky/BakedEnchants/wiki).
 
 ## Credits
 - Logo made by hand by Foreck
