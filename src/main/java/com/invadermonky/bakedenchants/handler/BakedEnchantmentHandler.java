@@ -30,7 +30,7 @@ public class BakedEnchantmentHandler {
      * @return true if the only enchantments on the item are baked enchantments
      */
     public static boolean canBeEnchanted(ItemStack stack) {
-        return bakedEnchantments.stream().anyMatch(recipe -> !recipe.validateBakedEnchantments(stack));
+        return bakedEnchantments.stream().anyMatch(recipe -> recipe.validateBakedEnchantments(stack));
     }
 
     /**
@@ -87,6 +87,7 @@ public class BakedEnchantmentHandler {
     }
 
     public static @Nullable BakedEnchantmentRecipe getBakedEnchantRecipe(ItemStack stack) {
+        if(stack.isEmpty()) return null;
         return bakedEnchantments.stream().filter(recipe -> recipe.matches(stack)).findFirst().orElse(null);
     }
 

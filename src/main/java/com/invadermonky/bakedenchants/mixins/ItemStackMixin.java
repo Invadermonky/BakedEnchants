@@ -40,6 +40,16 @@ public class ItemStackMixin {
         }
     }
 
+    @Inject(method = "Lnet/minecraft/item/ItemStack;<init>(Lnet/minecraft/nbt/NBTTagCompound;)V", at = @At("TAIL"))
+    private void constructorMixin(NBTTagCompound itemData, CallbackInfo ci) {
+        if (itemData != null && !itemData.isEmpty() && getItemStack().getItem() != null && getItemStack().getItem() != Items.AIR) {
+            BakedEnchantmentRecipe recipe = BakedEnchantmentHandler.getBakedEnchantRecipe(getItemStack());
+            if (recipe != null) {
+                recipe.bakeEnchantments(getItemStack());
+            }
+        }
+    }
+
     @ModifyReturnValue(method = "copy", at = @At("RETURN"))
     private ItemStack copyMixin(ItemStack original) {
         if (!original.isEmpty()) {
@@ -53,7 +63,7 @@ public class ItemStackMixin {
 
     @Inject(method = "isItemEnchanted", at = @At("HEAD"), cancellable = true)
     private void isItemEnchantedMixin(CallbackInfoReturnable<Boolean> ci) {
-        if (!BakedEnchantmentHandler.canBeEnchanted(getItemStack())) {
+        if (BakedEnchantmentHandler.canBeEnchanted(getItemStack())) {
             ci.setReturnValue(false);
         }
     }

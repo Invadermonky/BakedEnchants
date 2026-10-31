@@ -1,21 +1,29 @@
 # Changelog
-## 1.12.2-2.1.0
-### Added
-- Added Crafttweaker helper methods for adding shaped and shapeless crafting table recipes for baked items
+## 1.12.2-2.1.2
 
+---
+
+## 1.12.2-2.1.1
+### Added
+- Added check to reduce the chance of enchantment duping
 ### Fixed
+- Fixed an issue causing all baked items to glow regardless of configuration setting
+- Fixed several instances of inverted logic causing baked items to be unenchantable
+
+---
+
+## 1.12.2-2.1.0
+- Added Crafttweaker helper methods for adding shaped and shapeless crafting table recipes for baked items
 - Fixed certain recipes not correctly adding baked enchants to items
 
 ---
 
 ## 1.12.2-2.0.2
-### Fixed
 - Fixed baked enchant scripts interfering with recipe removals
 
 ---
 
 ## 1.12.2-2.0.1
-### Fixed
 - Fix circular dependency issue with Quark and Crafttweaker
 
 ---
