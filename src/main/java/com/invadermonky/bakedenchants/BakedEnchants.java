@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class BakedEnchants {
     public static final String MOD_ID = Tags.MOD_ID;
     public static final String MOD_NAME = Tags.MOD_NAME;
-    public static final String MOD_VERSION = "2.1.0";
+    public static final String MOD_VERSION = Tags.VERSION;
     public static final String DEPENDENCIES = "required-after:mixinbooter;after:crafttweaker";
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
