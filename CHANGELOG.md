@@ -1,8 +1,4 @@
 # Changelog
-## 1.12.2-2.1.2
-
----
-
 ## 1.12.2-2.1.1
 ### Added
 - Added check to reduce the chance of enchantment duping
