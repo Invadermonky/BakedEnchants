@@ -77,7 +77,7 @@ public class BakedEnchants extends VirtualizedRegistry<BakedEnchantmentRecipe> {
     }
 
     @RecipeBuilderDescription(
-            example = @Example(".setStack(item('minecraft:stone_sword:*')).addEnchantment(enchantment('minecraft:looting'), 2).addEnchantment(enchantment('minecraft:sharpness'), 5)")
+            example = @Example(".setBakedStack(item('minecraft:stone_sword:*')).addEnchantment(enchantment('minecraft:looting'), 2).addEnchantment(enchantment('minecraft:sharpness'), 5)")
     )
     public RecipeBuilder recipeBuilder() {
         return new RecipeBuilder();
